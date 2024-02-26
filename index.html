@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selector de Color RGB</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 600px;
+      margin-top: 50px;
+    }
+
+    .color-box {
+      width: 200px;
+      height: 200px;
+      border: 1px solid black;
+      border-radius: 10px;
+    }
+
+    .form-control-range {
+      width: 80%;
+      margin-top: 10px;
+    }
+
+    #hexCode {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1 class="text-center mb-4">Selector de Color RGB</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <label for="redRange">Rojo:</label>
+      <input type="range" class="form-control-range" id="redRange" min="0" max="255" value="0">
+      <input type="number" class="form-control mt-2" id="redInput" min="0" max="255" placeholder="0">
+    </div>
+    <div class="col-md-4">
+      <label for="greenRange">Verde:</label>
+      <input type="range" class="form-control-range" id="greenRange" min="0" max="255" value="0">
+      <input type="number" class="form-control mt-2" id="greenInput" min="0" max="255" placeholder="0">
+    </div>
+    <div class="col-md-4">
+      <label for="blueRange">Azul:</label>
+      <input type="range" class="form-control-range" id="blueRange" min="0" max="255" value="0">
+      <input type="number" class="form-control mt-2" id="blueInput" min="0" max="255" placeholder="0">
+    </div>
+  </div>
+  <div class="form-group mt-3">
+    <label for="colorPicker">Seleccionar color:</label>
+    <input type="color" class="form-control" id="colorPicker">
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div id="colorBox" class="color-box mb-3"></div>
+      <p id="hexCode" class="text-center">Código Hexadecimal: #000000</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const redRange = document.getElementById("redRange");
+    const greenRange = document.getElementById("greenRange");
+    const blueRange = document.getElementById("blueRange");
+    const redInput = document.getElementById("redInput");
+    const greenInput = document.getElementById("greenInput");
+    const blueInput = document.getElementById("blueInput");
+    const colorPicker = document.getElementById("colorPicker");
+    const colorBox = document.getElementById("colorBox");
+    const hexCode = document.getElementById("hexCode");
+
+    function updateColor() {
+      const red = parseInt(redInput.value) || parseInt(redRange.value);
+      const green = parseInt(greenInput.value) || parseInt(greenRange.value);
+      const blue = parseInt(blueInput.value) || parseInt(blueRange.value);
+
+      // Convertir valores RGB a su representación hexadecimal con colores correctos
+      const hexRed = red.toString(16).padStart(2, '0');
+      const hexGreen = green.toString(16).padStart(2, '0');
+      const hexBlue = blue.toString(16).padStart(2, '0');
+
+      // Construir el código hexadecimal completo
+      const hexColor = `#${hexRed}${hexGreen}${hexBlue}`;
+
+      // Actualizar el cuadro de color y el código hexadecimal
+      colorBox.style.backgroundColor = hexColor;
+      hexCode.textContent = `Código Hexadecimal: ${hexColor}`;
+
+      // Actualizar el valor del selector de color
+      colorPicker.value = hexColor;
+    }
+
+    redRange.addEventListener("input", function() {
+      redInput.value = redRange.value;
+      updateColor();
+    });
+    greenRange.addEventListener("input", function() {
+      greenInput.value = greenRange.value;
+      updateColor();
+    });
+    blueRange.addEventListener("input", function() {
+      blueInput.value = blueRange.value;
+      updateColor();
+    });
+
+    redInput.addEventListener("input", function() {
+      redRange.value = redInput.value;
+      updateColor();
+    });
+    greenInput.addEventListener("input", function() {
+      greenRange.value = greenInput.value;
+      updateColor();
+    });
+    blueInput.addEventListener("input", function() {
+      blueRange.value = blueInput.value;
+      updateColor();
+    });
+
+    colorPicker.addEventListener("input", function() {
+      const hexValue = colorPicker.value;
+      // Convertir el código hexadecimal a valores RGB
+      const red = parseInt(hexValue.substring(1, 3), 16);
+      const green = parseInt(hexValue.substring(3, 5), 16);
+      const blue = parseInt(hexValue.substring(5, 7), 16);
+
+      // Actualizar los valores de los controles deslizantes y el cuadro de color
+      redInput.value = red;
+      redRange.value = red;
+      greenInput.value = green;
+      greenRange.value = green;
+      blueInput.value = blue;
+      blueRange.value = blue;
+
+      updateColor();
+    });
+
+    updateColor();
+  });
+</script>
+
+</body>
+</html>
